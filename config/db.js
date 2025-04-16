@@ -13,3 +13,5 @@ catch (error) {
     console.log("connection failed", error)
     process.exit(1)
 }
+
+module.exports = connectDB;
