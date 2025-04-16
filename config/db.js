@@ -2,8 +2,10 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 
 dotenv.config()
+
+const connectDB = ()=>{
 try {
-    const connectDB = mongoose.connect(process.env.MONGO_URI, {
+ mongoose.connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
@@ -14,4 +16,5 @@ catch (error) {
     process.exit(1)
 }
 
+}
 module.exports = connectDB;
