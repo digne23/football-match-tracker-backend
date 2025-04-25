@@ -28,19 +28,21 @@ router.post('/login', async (req, res) => {
         const { email, password } = req.body
         const user = await User.findOne({ email })
         if (!user)
-            res.status(401).json({ message: "register first to login" })
+            return res.status(401).json({ message: "register first to login" })
         const isMatch = await user.matchPassword(password)
         if (!isMatch)
-            res.status(400).json({ message: "invalid login credentials" })
+            return res.status(400).json({ message: "invalid login credentials" })
         const token = jwt.sign(
             { userId: user._id },
               process.env.JWT_SECRET,
             { expiresIn: "30d" }
         )
-        res.json(token)
+        delete user.password;
+        
+        return res.json({token, user})
     } catch (error) {
         console.error("error message",error)
-        res.status(500).json("server error")
+        return res.status(500).json("server error")
     }
 })
 

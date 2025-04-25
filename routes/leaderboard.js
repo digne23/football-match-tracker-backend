@@ -66,6 +66,9 @@ router.get('/', async (req, res) => {
                     leaderboard[team2._id].points += 1
                 }
 
+
+                
+
             }
         
        
@@ -95,6 +98,8 @@ router.get('/', async (req, res) => {
             })
    
 
+        
+        
         const sortedTopscorers = Object.entries(topscorers)
             .map(([playerName, goals]) => ({
                 playerName, goals

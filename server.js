@@ -6,11 +6,13 @@ const teamRoutes = require('./routes/teamRoutes')
 const matchRoutes = require('./routes/matchRoutes')
 const protect = require('./models/middleware/authMiddleware')
 const leaderboardRoutes = require('./routes/leaderboard')
+const cors = require('cors');
 
 dotenv.config()
 connectDB();
 
 const app = express()
+app.use(cors());
 app.use(express.json())
 
 

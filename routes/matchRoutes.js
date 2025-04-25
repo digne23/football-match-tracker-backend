@@ -25,9 +25,13 @@ router.post('/', protect, async (req, res) => {
     }
 })
 
-router.get('/', protect, async(req, res) => {
+router.get('/',protect, async(req, res) => {
     try {
         const matches = await Match.find({ createdBy: req.user._id })
+          .populate("team1", "name")
+            .populate("team2", "name")
+        .exec()
+
         res.json(matches)
     
     } catch (error) {
@@ -36,7 +40,7 @@ router.get('/', protect, async(req, res) => {
     }
 })
 
-router.get('/:id', protect, async (req, res) => {
+router.get('/:id',protect, async (req, res) => {
     try {
         const match = await Match.findOne({ _id: req.params.id, createdBy: req.user._id })
   
@@ -66,9 +70,9 @@ router.put('/:id', protect, async (req, res) => {
     }
 })
 
-router.delete('/:id', protect, (req, res) => {
+router.delete('/:id', protect, async (req, res) => {
     const { team1, team2, date, location, stats } = req.body
-    const match = Match.findOneAndDelete({ _id: req.params.id, createdBy: req.user._id })
+    const match = await  Match.findOneAndDelete({ _id: req.params.id, createdBy: req.user._id })
     if (!match)
         return res.status(401).json({message:"match could not be deleted, match not found"})
     res.json({message:"match deleted sucessfully"})
